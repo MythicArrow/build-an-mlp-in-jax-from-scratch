@@ -1,0 +1,132 @@
+"""
+Build an MLP in JAX from Scratch
+
+Assembled from your step-by-step solutions.
+"""
+
+import numpy as np
+
+# Step 1 - make_prng_key
+import jax
+import jax.numpy as jnp
+
+
+def make_prng_key(seed):
+    # TODO: wrap a Python integer seed into a JAX PRNG key (uint32 array of shape (2,))
+    return jax.random.PRNGKey(seed)
+
+# Step 2 - split_prng_key
+import jax
+
+def split_prng_key(key, num):
+    # Split the parent key into `num` independent subkeys
+    # jax.random.split takes the key and a count (num)
+    return jax.random.split(key, num)
+
+# Step 3 - sample_normal_matrix
+import jax
+import jax.numpy as jnp
+
+def sample_normal_matrix(key, shape):
+    # TODO: return a jnp array of the given shape with i.i.d. N(0,1) samples drawn from key
+    return jax.random.normal(key,shape)
+
+# Step 4 - sample_input_features
+import jax
+import jax.numpy as jnp
+from jax import random
+
+def sample_normal_matrix(key, shape):
+    """Helper function to sample a matrix from standard normal distribution."""
+    return random.normal(key, shape)
+
+def sample_input_features(key, batch_size, num_features):
+    """Sample a (batch_size, num_features) standard-normal feature batch."""
+    samples = sample_normal_matrix(key, (batch_size, num_features))
+    return samples
+
+# Step 5 - assign_class_labels
+import jax.numpy as jnp
+
+def assign_class_labels(inputs, num_classes):
+    """
+    Assign class labels by taking argmax over the first `num_classes` columns.
+    
+    Args:
+        inputs: A 2D JAX array of shape (batch_size, num_features)
+        num_classes: Integer specifying how many columns to consider for labeling
+    
+    Returns:
+        1D JAX array of shape (batch_size,) with dtype int32, containing labels in [0, num_classes)
+    """
+    # Take the first num_classes columns
+    feature_subset = inputs[:, :num_classes]
+    
+    # Compute argmax along the feature axis (axis=1)
+    labels = jnp.argmax(feature_subset, axis=1)
+    
+    # Ensure dtype is int32
+    return labels.astype(jnp.int32)
+
+# Step 6 - one_hot_encode_labels
+def one_hot_encode_labels(labels, num_classes):
+    # TODO: Convert a 1-D array of integer class indices into a 2-D one-hot matrix of shape (batch, num_classes).
+    arange = jnp.arange(num_classes)[None,:]
+    val = labels[:, None] == arange
+    return val.astype(jnp.float32)
+
+# Step 7 - init_linear_layer
+import jax
+import jax.numpy as jnp
+
+def init_linear_layer(key, in_dim, out_dim, scale=0.1):
+    """Return {'W': (in_dim, out_dim), 'b': (out_dim,)} for one dense layer."""
+    # TODO: sample W from a scaled normal and set b to zeros, return as a dict.
+    rand_arr = sample_normal_matrix(key,(in_dim,out_dim) )
+    rand_arr = rand_arr * scale
+    bias = jnp.zeros(out_dim)
+    dic = {'W' : rand_arr, 'b' :bias}
+    return dic
+
+# Step 8 - init_mlp_params (not yet solved)
+# TODO: implement
+
+# Step 9 - linear_forward (not yet solved)
+# TODO: implement
+
+# Step 10 - relu_activation (not yet solved)
+# TODO: implement
+
+# Step 11 - softmax_probabilities (not yet solved)
+# TODO: implement
+
+# Step 12 - mlp_forward (not yet solved)
+# TODO: implement
+
+# Step 13 - log_softmax_logits (not yet solved)
+# TODO: implement
+
+# Step 14 - cross_entropy_loss (not yet solved)
+# TODO: implement
+
+# Step 15 - classification_accuracy (not yet solved)
+# TODO: implement
+
+# Step 16 - loss_fn_of_params (not yet solved)
+# TODO: implement
+
+# Step 17 - compute_param_grads (not yet solved)
+# TODO: implement
+
+# Step 18 - sgd_update_params (not yet solved)
+# TODO: implement
+
+# Step 19 - training_step (not yet solved)
+# TODO: implement
+
+# Step 20 - train_mlp (not yet solved)
+# TODO: implement
+
+# Step 21 - predict_classes (not yet solved)
+# TODO: implement
+
